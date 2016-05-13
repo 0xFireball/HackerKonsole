@@ -56,5 +56,11 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HackerKonsoleServer.Common\HackerKonsoleServer.Common.csproj">
+      <Project>{D222126A-2E47-417E-9B10-BFE253559927}</Project>
+      <Name>HackerKonsoleServer.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
