@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HackerKonsole.Server.Stealth</RootNamespace>
-    <AssemblyName>HackerKonsole.Server.Stealth</AssemblyName>
+    <AssemblyName>HackerKonsole.ServerHosts.Stealth</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -23,6 +23,8 @@
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <StartAction>Project</StartAction>
+    <StartArguments>0.0.0.0 25000 -enablelogging</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,6 +59,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HackerKonsole.ServerCore\HackerKonsole.ServerCore.csproj">
+      <Project>{C0CDA662-0B31-46E9-A890-FCA80C8D7B8E}</Project>
+      <Name>HackerKonsole.ServerCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HackerKonsoleServer.Common\HackerKonsoleServer.Common.csproj">
       <Project>{D222126A-2E47-417E-9B10-BFE253559927}</Project>
       <Name>HackerKonsoleServer.Common</Name>

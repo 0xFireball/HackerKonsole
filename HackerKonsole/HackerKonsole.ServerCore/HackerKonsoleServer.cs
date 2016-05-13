@@ -10,8 +10,13 @@ namespace HackerKonsole.ServerCore
 	public class HackerKonsoleServer : RatServer
 	{
 		public HackerKonsoleServer(ServerSettings serverSettings) : base(serverSettings)
+		{			
+		}
+		
+		public override void StartServer()
 		{
-			
+			base.StartServer();
+			Logger.WriteLine("Started HackerKonsole Server");
 		}
 	}
 }

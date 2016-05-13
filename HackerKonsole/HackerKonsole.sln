@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{15318A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsole.ServerCore", "HackerKonsole.ServerCore\HackerKonsole.ServerCore.csproj", "{C0CDA662-0B31-46E9-A890-FCA80C8D7B8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsole.Server.Stealth", "HackerKonsole.Server.Stealth\HackerKonsole.Server.Stealth.csproj", "{900EF232-975F-45CB-B779-66008CE536AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsole.ServerHosts.Stealth", "HackerKonsole.Server.Stealth\HackerKonsole.ServerHosts.Stealth.csproj", "{900EF232-975F-45CB-B779-66008CE536AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsoleServer.Common", "HackerKonsoleServer.Common\HackerKonsoleServer.Common.csproj", "{D222126A-2E47-417E-9B10-BFE253559927}"
 EndProject

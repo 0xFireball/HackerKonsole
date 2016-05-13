@@ -31,15 +31,22 @@ namespace HackerKonsole.ServerCore
             // "processed" view of the world, and we want the data raw after the headers.
 			InputStream = new BufferedStream(BaseSocket.GetStream());
 			// StreamWriter - easy processing for output
-			OutputStream = new StreamWriter(new BufferedStream(BaseSocket.GetStream()));
-			try
+			using (OutputStream = new StreamWriter(new BufferedStream(BaseSocket.GetStream()))) 
 			{
-				//TODO: Do something
+				try 
+				{
+					//TODO: Do something
+				} 
+				catch (Exception ex) {
+					//The ultimate catch block to prevent crashes due to bad input
+					Logger.WriteLine("Exception: {0}", ex);
+				} 
+				finally {
+					InputStream = null;
+					OutputStream = null;
+				}
 			}
-			catch (Exception ex)
-			{
-				//The ultimate catch block to prevent crashes due to bad input
-			}
+			BaseSocket.Close();
 		}
 	}
 }
