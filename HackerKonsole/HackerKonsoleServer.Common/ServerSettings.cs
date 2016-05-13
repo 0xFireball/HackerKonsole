@@ -8,5 +8,6 @@ namespace HackerKonsoleServer.Common
 	{
 		public string BindAddress;
 		public int Port;
+		public bool EnableLogging = false;
 	}
 }

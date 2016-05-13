@@ -11,6 +11,8 @@ namespace HackerKonsole.ServerCore
 		public static void StartServer(ServerSettings serverSettings)
 		{
 			var hackerKonsoleServer = new HackerKonsoleServer(serverSettings);
+			Logger.EnableLogging = serverSettings.EnableLogging;
+			hackerKonsoleServer.StartServer(); //Run the server
 		}
 	}
 }
