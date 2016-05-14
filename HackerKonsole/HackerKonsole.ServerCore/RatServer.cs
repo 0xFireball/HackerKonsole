@@ -17,12 +17,14 @@ namespace HackerKonsole.ServerCore
 		readonly int bindPort;
 		readonly TcpListener _listenerSocket;
 		bool _isActive;
+		int _waitTimeout;
 		
 		public RatServer(ServerSettings serverSettings)
 		{
 			_serverSettings = serverSettings;
 			bindAddress = _serverSettings.BindAddress;
 			bindPort = _serverSettings.Port;
+			_waitTimeout = _serverSettings.WaitTimeout;
 			_listenerSocket = new TcpListener(new IPEndPoint(IPAddress.Parse(bindAddress), bindPort));
 		}
 		
@@ -33,7 +35,7 @@ namespace HackerKonsole.ServerCore
 			while (_isActive)
             {
                 var s = _listenerSocket.AcceptTcpClient();
-                var processor = new ConnectionProcessor(s, this);
+                var processor = new ConnectionProcessor(s, this, _waitTimeout);
                 Task.Factory.StartNew(processor.ProcessConnection);
             }
 		}

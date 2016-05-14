@@ -8,8 +8,15 @@ namespace HackerKonsole.ServerCore
 	/// </summary>
 	public static class HackerKonsoleServerMaster
 	{
-		public static void StartServer(ServerSettings serverSettings)
+		public static void StartServer(string[] args)
 		{
+			var serverSettings = new ServerSettings()
+			{
+				BindAddress = args[0],
+				Port = int.Parse(args[1]),
+				EnableLogging = args[2]=="-enablelogging",
+				WaitTimeout = int.Parse(args[1]),
+			};
 			var hackerKonsoleServer = new HackerKonsoleServer(serverSettings);
 			Logger.EnableLogging = serverSettings.EnableLogging;
 			hackerKonsoleServer.StartServer(); //Run the server

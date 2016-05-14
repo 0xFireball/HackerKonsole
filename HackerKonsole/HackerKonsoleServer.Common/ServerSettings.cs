@@ -8,6 +8,7 @@ namespace HackerKonsoleServer.Common
 	{
 		public string BindAddress;
 		public int Port;
+		public int WaitTimeout = 10000;
 		public bool EnableLogging = false;
 	}
 }
