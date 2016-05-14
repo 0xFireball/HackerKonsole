@@ -136,6 +136,16 @@ namespace HackerKonsole.ServerCore
 				case "kill":
 					SendLine(CommonMessages.GracefulByeMessage); //Send graceful bye message
 					throw new KillConnectionException("Client killed connection.");
+				case "givemeashell":
+				case "shell":
+					SendLine("Opening Shell...");
+					HKServices.RemoteShell(OutputStream, InputStream, SendLine);
+					SendLine("Shell session closed.");
+					break;
+				case "help":
+				case "helpme":
+					SendLine("You don't need help, you're a h4x0r!");
+					break;
 			}
 		}
 	}

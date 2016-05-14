@@ -59,6 +59,7 @@
     <Compile Include="ConnectionProcessor.cs" />
     <Compile Include="HackerKonsoleServer.cs" />
     <Compile Include="HackerKonsoleServerMaster.cs" />
+    <Compile Include="HKServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatServer.cs" />
   </ItemGroup>
