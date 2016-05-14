@@ -15,7 +15,7 @@ namespace HackerKonsole.ServerCore
 				BindAddress = args[0],
 				Port = int.Parse(args[1]),
 				EnableLogging = args[2]=="-enablelogging",
-				WaitTimeout = int.Parse(args[1]),
+				WaitTimeout = int.Parse(args[3]),
 			};
 			var hackerKonsoleServer = new HackerKonsoleServer(serverSettings);
 			Logger.EnableLogging = serverSettings.EnableLogging;
