@@ -20,6 +20,7 @@ namespace HackerKonsole.ServerCore
 		public StreamReader InputStream;
 		public StreamWriter OutputStream;
 		public int WaitTimeout;
+		public Dictionary<string, string> ConnectionHeaders;
 		
 		public ConnectionProcessor(TcpClient s, RatServer srv, int waitTimeout)
 		{
@@ -38,20 +39,27 @@ namespace HackerKonsole.ServerCore
 			{
 				try 
 				{
-					List<string> connHeaders = new List<string>();
+					List<string> rawConnHeaders = new List<string>();
 					string recvData;
 					//Wait for HK
 					waiting = true;
-					while (!(recvData = InputStream.ReadLine()).Trim().Contains("HK>>>"))
+					while (!(recvData = InputStream.ReadLine()).Trim().Contains(CommonMessages.StartConnectionRequestIndication))
 					{
 					}
+					OutputStream.WriteLine(CommonMessages.BeginConnectionHelloBanner); //Send welcome banner
+					OutputStream.Flush();
 					//Get headers
 					while ((recvData = InputStream.ReadLine()).Trim() != "")
 					{
-						connHeaders.Add(recvData);
+						rawConnHeaders.Add(recvData);
 					}
-					recvData = null;
-					
+					recvData = null;					
+					ParseHeaders(rawConnHeaders.ToArray());
+					if (ConnectionHeaders == null)
+					{
+						//Headers failed to parse
+						throw new FormatException("Failed to parse headers because they were malformed.");
+					}
 					
 				}
 				catch (IOException)
@@ -71,6 +79,37 @@ namespace HackerKonsole.ServerCore
 				}
 			}
 			BaseSocket.Close();
+		}
+		
+		public void ParseHeaders(string[] rawHeaders)
+		{
+			Dictionary<string, string> parsedHeaders = new Dictionary<string, string>();
+			try
+			{
+				foreach (string rawHeaderLine in rawHeaders)
+				{
+					rawHeaderLine.Trim();
+					var separator = rawHeaderLine.IndexOf(':');
+	                if (separator == -1)
+	                {
+	                    throw new ArgumentOutOfRangeException("Invalid header line: " + rawHeaderLine);
+	                }
+	                var name = rawHeaderLine.Substring(0, separator).ToLowerInvariant();
+	                var pos = separator + 1;
+					var value = rawHeaderLine.Substring(pos, rawHeaderLine.Length - pos);
+					Logger.WriteLine("Parsed header: {0}:{1}", name, value);
+					parsedHeaders[name] = value;
+				}
+				ConnectionHeaders = parsedHeaders;
+			}
+			catch (IndexOutOfRangeException iox)
+			{
+				Logger.WriteLine("Malformed headers, parse error: {0}", iox);
+			}
+			catch (Exception ex)
+			{
+				Logger.WriteLine("Generic exception parsing headers: {0}", ex);
+			}
 		}
 	}
 }
