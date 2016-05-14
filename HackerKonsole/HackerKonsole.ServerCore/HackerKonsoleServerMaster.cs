@@ -8,6 +8,7 @@ namespace HackerKonsole.ServerCore
 	/// </summary>
 	public static class HackerKonsoleServerMaster
 	{
+		public static string Version = "0.0.2";
 		public static void StartServer(string[] args)
 		{
 			var serverSettings = new ServerSettings()

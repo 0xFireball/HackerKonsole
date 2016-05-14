@@ -10,6 +10,8 @@ namespace HackerKonsoleServer.Common
 	public static class CommonMessages
 	{
 		public static string StartConnectionRequestIndication = "HK>>>";
-		public static string BeginConnectionHelloBanner = "WlcmH4x0r";
+		public static string BeginConnectionHelloBanner = "Wlcm H4x0r";
+		public static string GracefulByeMessage = "Bye H4x0r";
+		public static string WelcomeMaster = "Welcome Gr34t M4573R";
 	}
 }

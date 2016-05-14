@@ -46,8 +46,7 @@ namespace HackerKonsole.ServerCore
 					while (!(recvData = InputStream.ReadLine()).Trim().Contains(CommonMessages.StartConnectionRequestIndication))
 					{
 					}
-					OutputStream.WriteLine(CommonMessages.BeginConnectionHelloBanner); //Send welcome banner
-					OutputStream.Flush();
+					SendLine(CommonMessages.BeginConnectionHelloBanner); //Send welcome banner
 					//Get headers
 					while ((recvData = InputStream.ReadLine()).Trim() != "")
 					{
@@ -60,7 +59,13 @@ namespace HackerKonsole.ServerCore
 						//Headers failed to parse
 						throw new FormatException("Failed to parse headers because they were malformed.");
 					}
-					
+					SendLine(CommonMessages.WelcomeMaster);
+					//Interpreter mode
+					while (true)
+					{
+						recvData = InputStream.ReadLine().Trim();
+						ParseCommand(recvData);
+					}
 				}
 				catch (IOException)
 				{
@@ -79,6 +84,12 @@ namespace HackerKonsole.ServerCore
 				}
 			}
 			BaseSocket.Close();
+		}
+		
+		public void SendLine(string line)
+		{
+			OutputStream.WriteLine(line);
+			OutputStream.Flush();
 		}
 		
 		public void ParseHeaders(string[] rawHeaders)
@@ -102,6 +113,10 @@ namespace HackerKonsole.ServerCore
 				}
 				ConnectionHeaders = parsedHeaders;
 			}
+			catch (KillConnectionException)
+			{
+				Logger.WriteLine("Connection closed by client.");
+			}
 			catch (IndexOutOfRangeException iox)
 			{
 				Logger.WriteLine("Malformed headers, parse error: {0}", iox);
@@ -109,6 +124,18 @@ namespace HackerKonsole.ServerCore
 			catch (Exception ex)
 			{
 				Logger.WriteLine("Generic exception parsing headers: {0}", ex);
+			}
+		}
+		private void ParseCommand(string command)
+		{
+			switch (command)
+			{
+				case "bye":
+				case "exit":
+				case "leave":
+				case "kill":
+					SendLine(CommonMessages.GracefulByeMessage); //Send graceful bye message
+					throw new KillConnectionException("Client killed connection.");
 			}
 		}
 	}
