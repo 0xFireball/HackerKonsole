@@ -24,10 +24,10 @@ namespace HackerKonsole.ServerCore
 				StartInfo = new ProcessStartInfo()
 				{
 					UseShellExecute = false,
-					CreateNoWindow = true,
+					//CreateNoWindow = true,
 					RedirectStandardInput = true,
-					RedirectStandardOutput = true,
-					RedirectStandardError = true,
+					//RedirectStandardOutput = true,
+					//RedirectStandardError = true,
 					FileName = shellPath,
 				},			
 			};
@@ -35,10 +35,10 @@ namespace HackerKonsole.ServerCore
 			
 			p.Start();
 			var procStdIn = p.StandardInput;
-			var procStdOut = p.StandardOutput;
-			var procStdErr = p.StandardError;
-			p.OutputDataReceived += (object sender, DataReceivedEventArgs e) => sendLine(e.Data);
-			p.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => sendLine(e.Data);
+			//var procStdOut = p.StandardOutput;
+			//var procStdErr = p.StandardError;
+			//p.OutputDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
+			//p.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
 			while (stayInShell)
 			{
 				string command = inputStream.ReadLine();
@@ -47,10 +47,12 @@ namespace HackerKonsole.ServerCore
 					case "exit":
 						sendLine("You have exited shell.");
 						stayInShell = false;
+						p.Close();
 						break;
 					default:
 						//Execute shell command
 						procStdIn.WriteLine(command);
+						procStdIn.Flush();
 						break;
 				}
 			}
