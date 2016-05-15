@@ -19,26 +19,29 @@ namespace HackerKonsole.ServerCore
 			sendLine("[you are now in shell mode, type `exit` to exit shell.]");
 			bool stayInShell = true;
 			string shellPath = @"C:\Windows\System32\CMD.exe";
-			Process p = new Process()
+			Process shellProcess = new Process()
 			{
 				StartInfo = new ProcessStartInfo()
 				{
 					UseShellExecute = false,
-					//CreateNoWindow = true,
+					CreateNoWindow = true,
 					RedirectStandardInput = true,
-					//RedirectStandardOutput = true,
-					//RedirectStandardError = true,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
 					FileName = shellPath,
 				},			
 			};
-			StringWriter procIn = new StringWriter();
 			
-			p.Start();
-			var procStdIn = p.StandardInput;
-			//var procStdOut = p.StandardOutput;
-			//var procStdErr = p.StandardError;
-			//p.OutputDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
-			//p.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
+			
+			shellProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
+			shellProcess.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
+			shellProcess.Start();
+			var procStdIn = shellProcess.StandardInput;
+			//var procStdOut = shellProcess.StandardOutput;
+			//var procStdErr = shellProcess.StandardError;
+			shellProcess.BeginOutputReadLine();
+			shellProcess.BeginErrorReadLine();
+			
 			while (stayInShell)
 			{
 				string command = inputStream.ReadLine();
@@ -47,7 +50,7 @@ namespace HackerKonsole.ServerCore
 					case "exit":
 						sendLine("You have exited shell.");
 						stayInShell = false;
-						p.Close();
+						shellProcess.Close();
 						break;
 					default:
 						//Execute shell command
