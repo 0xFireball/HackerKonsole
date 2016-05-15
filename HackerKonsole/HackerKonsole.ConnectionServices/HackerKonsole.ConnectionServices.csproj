@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{C0CDA662-0B31-46E9-A890-FCA80C8D7B8E}</ProjectGuid>
+    <ProjectGuid>{B2A4969A-4E37-4D00-A0CF-E022E4C06476}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>HackerKonsole.ServerCore</RootNamespace>
-    <AssemblyName>HackerKonsole.ServerCore</AssemblyName>
+    <RootNamespace>HackerKonsole.ConnectionServices</RootNamespace>
+    <AssemblyName>HackerKonsole.ConnectionServices</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <NoWin32Manifest>False</NoWin32Manifest>
@@ -56,22 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionProcessor.cs" />
-    <Compile Include="HackerKonsoleServer.cs" />
-    <Compile Include="HackerKonsoleServerMaster.cs" />
-    <Compile Include="HKServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RatServer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HackerKonsole.ConnectionServices\HackerKonsole.ConnectionServices.csproj">
-      <Project>{B2A4969A-4E37-4D00-A0CF-E022E4C06476}</Project>
-      <Name>HackerKonsole.ConnectionServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HackerKonsoleServer.Common\HackerKonsoleServer.Common.csproj">
-      <Project>{D222126A-2E47-417E-9B10-BFE253559927}</Project>
-      <Name>HackerKonsoleServer.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

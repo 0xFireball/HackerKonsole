@@ -33,7 +33,7 @@
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <StartAction>Project</StartAction>
-    <StartArguments>0.0.0.0 25000 -enablelogging 60000</StartArguments>
+    <StartArguments>0.0.0.0 25000 60000 -enablelogging</StartArguments>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
