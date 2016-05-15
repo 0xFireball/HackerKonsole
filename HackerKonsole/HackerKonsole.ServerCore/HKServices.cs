@@ -37,8 +37,7 @@ namespace HackerKonsole.ServerCore
 			shellProcess.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => sendLine("[shell] "+e.Data);
 			shellProcess.Start();
 			var procStdIn = shellProcess.StandardInput;
-			//var procStdOut = shellProcess.StandardOutput;
-			//var procStdErr = shellProcess.StandardError;
+			
 			shellProcess.BeginOutputReadLine();
 			shellProcess.BeginErrorReadLine();
 			
