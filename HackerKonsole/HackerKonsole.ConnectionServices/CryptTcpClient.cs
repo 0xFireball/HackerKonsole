@@ -33,10 +33,10 @@ namespace HackerKonsole.ConnectionServices
 
         #region Private Fields
 
+        private const int ChallengeHalfSize = 12;
         private const string KeyExchangeBanner = "<==KEY EXCHANGE==>";
         private const int KeyExchangeTimeoutMillis = 20000; //20s
         private const int RSAKeySize = 2048;
-        private const int ChallengeHalfSize = 12;
         private readonly StreamReader _inputStream;
         private readonly StreamWriter _outputStream;
         private readonly TcpClient _tcpClient;
@@ -79,14 +79,14 @@ namespace HackerKonsole.ConnectionServices
             var myChallengeHalves = myChallenge.Split('|');
             myChallenge = myChallenge.Replace("|", ""); //Remove the split character
             var theirChallengeHalf1 = tempRsaKey.DecryptStringWithPrivateKey(_inputStream.ReadLine());
-                //get first piece of their challenge
+            //get first piece of their challenge
             _outputStream.WriteLine(RSAKeyPair.EncryptStringWithPublicKey(myChallengeHalves[0]));
-                //send first piece of challenge
+            //send first piece of challenge
             _outputStream.Flush();
             var theirChallengeHalf2 = tempRsaKey.DecryptStringWithPrivateKey(_inputStream.ReadLine());
-                //get second piece of their challenge
+            //get second piece of their challenge
             _outputStream.WriteLine(RSAKeyPair.EncryptStringWithPublicKey(myChallengeHalves[1]));
-                //send second piece of challenge
+            //send second piece of challenge
             _outputStream.Flush();
             var theirChallenge = theirChallengeHalf1 + theirChallengeHalf2; //Piece together their challenge
             _outputStream.WriteLine(RSAKeyPair.EncryptStringWithPublicKey(theirChallenge)); //Send back their challenge
@@ -97,6 +97,8 @@ namespace HackerKonsole.ConnectionServices
                 //Challenge validation failed.
                 throw new ApplicationException("Challenge validation failed.");
             }
+            //Use a hash of the challenge as the session key
+            SessionKey = PowerAES.SHA512Hash(myChallenge);
         }
 
         public void Close()
@@ -109,7 +111,27 @@ namespace HackerKonsole.ConnectionServices
             RSAKeyPair = new PowerRSA(RSAKeySize); //Initialize RSA Key pair
         }
 
+        /*
         public NetworkStream GetStream()
+        {
+            return _tcpClient.GetStream();
+        }
+        */
+
+        public void WriteLineCrypto(string data)
+        {
+            string encryptedData = PowerAES.Encrypt(data, SessionKey);
+            _outputStream.WriteLine(encryptedData);
+            _outputStream.Flush();
+        }
+
+        public string ReadLineCrypto()
+        {
+            var rawData = _inputStream.ReadLine();
+            return PowerAES.Decrypt(rawData, SessionKey);
+        }
+
+        public NetworkStream GetUnencryptedStream()
         {
             return _tcpClient.GetStream();
         }
@@ -144,15 +166,15 @@ namespace HackerKonsole.ConnectionServices
             var myChallengeHalves = myChallenge.Split('|');
             myChallenge = myChallenge.Replace("|", ""); //Remove the split character
             _outputStream.WriteLine(clientPubkey.EncryptStringWithPublicKey(myChallengeHalves[0]));
-                //send first piece of challenge
+            //send first piece of challenge
             _outputStream.Flush();
             var theirChallengeHalf1 = RSAKeyPair.DecryptStringWithPrivateKey(_inputStream.ReadLine());
-                //get first piece of their challenge
+            //get first piece of their challenge
             _outputStream.WriteLine(clientPubkey.EncryptStringWithPublicKey(myChallengeHalves[1]));
-                //send second piece of challenge
+            //send second piece of challenge
             _outputStream.Flush();
             var theirChallengeHalf2 = RSAKeyPair.DecryptStringWithPrivateKey(_inputStream.ReadLine());
-                //get second piece of their challenge
+            //get second piece of their challenge
             var theirChallenge = theirChallengeHalf1 + theirChallengeHalf2; //Piece together their challenge
             _outputStream.WriteLine(clientPubkey.EncryptStringWithPublicKey(theirChallenge)); //Send back their challenge
             _outputStream.Flush();
@@ -162,6 +184,8 @@ namespace HackerKonsole.ConnectionServices
                 //Challenge validation failed.
                 throw new ApplicationException("Challenge validation failed.");
             }
+            //Use a hash of the challenge as the session key
+            SessionKey = PowerAES.SHA512Hash(theirChallenge);
         }
 
         public void SetReceiveTimeout(int milliseconds)

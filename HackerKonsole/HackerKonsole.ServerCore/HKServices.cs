@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using HackerKonsole.ConnectionServices;
 
 namespace HackerKonsole.ServerCore
 {
@@ -12,7 +13,7 @@ namespace HackerKonsole.ServerCore
     /// </summary>
     public static class HKServices
     {
-        public static void RemoteShell(StreamWriter outputStream, StreamReader inputStream, Action<string> sendLine)
+        public static void RemoteShell(CryptTcpClient encryptedConnection, Action<string> sendLine)
         {
             sendLine("=======SHELL=======");
             sendLine("[you are now in shell mode, type `exit` to exit shell.]");
@@ -42,7 +43,7 @@ namespace HackerKonsole.ServerCore
 
             while (stayInShell)
             {
-                var command = inputStream.ReadLine();
+                var command = encryptedConnection.ReadLineCrypto();
                 switch (command)
                 {
                     case "exit":

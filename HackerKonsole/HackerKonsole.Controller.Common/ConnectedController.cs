@@ -8,16 +8,12 @@ namespace HackerKonsole.Controller.Common
     public class ConnectedController
     {
         private const string NetShellPrompt = "HK $>";
-        private CryptTcpClient _baseSocket;
-        public StreamReader InputStream { get; }
-        public StreamWriter OutputStream { get; }
+        private readonly CryptTcpClient _encryptedConnection;
         public bool StayConnected { get; private set; }
 
         public ConnectedController(CryptTcpClient connectedCryptTcpClient)
         {
-            _baseSocket = connectedCryptTcpClient;
-            OutputStream = new StreamWriter(new BufferedStream(_baseSocket.GetStream()));
-            InputStream = new StreamReader(_baseSocket.GetStream());
+            _encryptedConnection = connectedCryptTcpClient;
         }
 
         public void InteractiveNetShell()
@@ -26,8 +22,7 @@ namespace HackerKonsole.Controller.Common
             Task.Factory.StartNew(ReceiveData);
             while (StayConnected)
             {
-                OutputStream.WriteLine(ConsoleExtensions.ReadWrite(NetShellPrompt));
-                OutputStream.Flush();
+                _encryptedConnection.WriteLineCrypto(ConsoleExtensions.ReadWrite(NetShellPrompt));
             }
         }
 
@@ -40,7 +35,7 @@ namespace HackerKonsole.Controller.Common
                 {
                     Console.WriteLine();                    
                 }
-                Console.WriteLine(InputStream.ReadLine());
+                Console.WriteLine(_encryptedConnection.ReadLineCrypto());
                 if (typedSomething)
                 {
                     Console.Write(NetShellPrompt);
