@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectedController.cs" />
     <Compile Include="ConnectionInfo.cs" />
     <Compile Include="ConsoleExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

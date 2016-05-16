@@ -1,13 +1,10 @@
-﻿
-using System;
-
-namespace HackerKonsole.StealthInstaller
+﻿namespace HackerKonsole.StealthInstaller
 {
-	class Program
-	{
-		public static void Main(string[] args)
-		{
-			//TODO: Install silently
-		}
-	}
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            //TODO: Install silently
+        }
+    }
 }
