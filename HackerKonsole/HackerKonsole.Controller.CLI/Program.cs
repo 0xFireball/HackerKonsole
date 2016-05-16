@@ -1,6 +1,9 @@
 ﻿
 using System;
+using System.Net;
+using System.Net.Sockets;
 using HackerKonsole.Controller.Common;
+using HackerKonsole.ConnectionServices;
 
 namespace HackerKonsole.Controller.CLI
 {
@@ -27,7 +30,21 @@ namespace HackerKonsole.Controller.CLI
 					RemotePort = int.Parse(ConsoleExtensions.ReadWrite("Remote Port: ")),
 				};
 			}
-			Console.WriteLine("Attempting to establish connection...");
+			using (var tcpConnection = new TcpClient(connInfo.RemoteHost, connInfo.RemotePort))
+			{
+				var cryptConnection = new CryptTcpClient(tcpConnection);
+				try
+				{
+					Console.WriteLine("Attempting to establish connection...");
+					cryptConnection.ClientPerformKeyExchange();
+					Console.WriteLine("Connection successfully established!");
+				}
+				catch (Exception ex)
+				{
+					cryptConnection.Close();
+					Console.WriteLine("An error occurred with the connection: {0}", tcpConnection);
+				}
+			}
 		}
 	}
 }

@@ -69,6 +69,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HackerKonsole.ConnectionServices\HackerKonsole.ConnectionServices.csproj">
+      <Project>{B2A4969A-4E37-4D00-A0CF-E022E4C06476}</Project>
+      <Name>HackerKonsole.ConnectionServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HackerKonsole.Controller.Common\HackerKonsole.Controller.Common.csproj">
       <Project>{A33ECC26-6C29-4574-9535-3B0D31279924}</Project>
       <Name>HackerKonsole.Controller.Common</Name>

@@ -6,6 +6,7 @@ using HackerKonsoleServer.Common;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using HackerKonsole.ConnectionServices;
 
 
 namespace HackerKonsole.ServerCore
@@ -16,7 +17,7 @@ namespace HackerKonsole.ServerCore
 	public class ConnectionProcessor
 	{
 		public RatServer BaseServer;
-		public TcpClient BaseSocket;
+		public CryptTcpClient BaseSocket;
 		public StreamReader InputStream;
 		public StreamWriter OutputStream;
 		public int WaitTimeout;
@@ -24,7 +25,7 @@ namespace HackerKonsole.ServerCore
 		
 		public ConnectionProcessor(TcpClient s, RatServer srv, int waitTimeout)
 		{
-			BaseSocket = s;
+			BaseSocket = new CryptTcpClient(s);
 			BaseServer = srv;
 			WaitTimeout = waitTimeout;
 		}
@@ -32,13 +33,17 @@ namespace HackerKonsole.ServerCore
 		public void ProcessConnection()
 		{
 			InputStream = new StreamReader(BaseSocket.GetStream());
-			BaseSocket.ReceiveTimeout = WaitTimeout;
 			bool waiting = false;
 			// StreamWriter - easy processing for output
 			using (OutputStream = new StreamWriter(new BufferedStream(BaseSocket.GetStream()))) 
 			{
 				try 
 				{
+					Logger.WriteLine("Performing key exchange...");
+					PerformSecureKeyExchange();
+					Logger.WriteLine("Key exchange success! Client connected.");
+					BaseSocket.SetReceiveTimeout(WaitTimeout);
+					//Start actual session
 					List<string> rawConnHeaders = new List<string>();
 					string recvData;
 					//Wait for HK
@@ -90,6 +95,13 @@ namespace HackerKonsole.ServerCore
 		{
 			OutputStream.WriteLine(line);
 			OutputStream.Flush();
+		}
+		
+		public void PerformSecureKeyExchange()
+		{
+			BaseSocket.GenerateAsymmetricKeys();
+			BaseSocket.ServerPerformKeyExchange();
+			
 		}
 		
 		public void ParseHeaders(string[] rawHeaders)
