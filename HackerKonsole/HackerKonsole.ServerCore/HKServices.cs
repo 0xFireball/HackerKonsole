@@ -3,7 +3,6 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using HackerKonsole.ConnectionServices;
 
 namespace HackerKonsole.ServerCore
@@ -18,7 +17,19 @@ namespace HackerKonsole.ServerCore
             sendLine("=======SHELL=======");
             sendLine("[you are now in shell mode, type `exit` to exit shell.]");
             var stayInShell = true;
-            var shellPath = @"C:\Windows\System32\CMD.exe";
+            var platform = PlatformDetector.RunningPlatform();
+            string shellPath = null;
+            switch (platform)
+            {
+                case PlatformDetector.Platform.Windows:
+                    shellPath = @"C:\Windows\System32\CMD.exe";
+                    break;
+
+                case PlatformDetector.Platform.Linux:
+                case PlatformDetector.Platform.Mac:
+                    shellPath = @"/bin/bash";
+                    break;
+            }
             var shellProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -31,7 +42,6 @@ namespace HackerKonsole.ServerCore
                     FileName = shellPath
                 }
             };
-
 
             shellProcess.OutputDataReceived += (sender, e) => sendLine("[shell] " + e.Data);
             shellProcess.ErrorDataReceived += (sender, e) => sendLine("[shell] " + e.Data);
@@ -51,6 +61,7 @@ namespace HackerKonsole.ServerCore
                         stayInShell = false;
                         shellProcess.Close();
                         break;
+
                     default:
                         //Execute shell command
                         procStdIn.WriteLine(command);
