@@ -26,6 +26,7 @@ namespace HackerKonsole.Controller.Common
 
         public bool SessionIsInitialized { get; set; }
         public bool StayConnected { get; private set; }
+
         #endregion Public Properties
 
         #region Public Methods
