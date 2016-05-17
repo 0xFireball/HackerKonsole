@@ -5,7 +5,6 @@ using HackerKonsole.Controller.Common;
 
 namespace HackerKonsole.Controller.GUI
 {
-
     internal class GuiConnectedControllerBackend
     {
         #region Private Fields
