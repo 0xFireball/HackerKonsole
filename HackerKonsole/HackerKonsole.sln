@@ -1,8 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-# SharpDevelop 5.1
-VisualStudioVersion = 12.0.20827.3
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{15318AEE-AE59-4CAB-AAF4-C5EDFCDA6F46}"
 EndProject
@@ -72,6 +71,9 @@ Global
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0CDA662-0B31-46E9-A890-FCA80C8D7B8E} = {15318AEE-AE59-4CAB-AAF4-C5EDFCDA6F46}

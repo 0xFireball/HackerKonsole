@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using HackerKonsole.ConnectionServices;
 
@@ -7,13 +6,36 @@ namespace HackerKonsole.Controller.Common
 {
     public class ConnectedController
     {
+        #region Private Fields
+
         private const string NetShellPrompt = "HK $>";
         private readonly CryptTcpClient _encryptedConnection;
-        public bool StayConnected { get; private set; }
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public ConnectedController(CryptTcpClient connectedCryptTcpClient)
         {
             _encryptedConnection = connectedCryptTcpClient;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public bool SessionIsInitialized { get; set; }
+        public bool StayConnected { get; private set; }
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public void InitializeSession()
+        {
+            _encryptedConnection.WriteLineCrypto("HK>>>");
+            _encryptedConnection.WriteLineCrypto("\n");
+            _encryptedConnection.WriteLineCrypto("\n");
+            SessionIsInitialized = true;
         }
 
         public void InteractiveNetShell()
@@ -26,6 +48,10 @@ namespace HackerKonsole.Controller.Common
             }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void ReceiveData()
         {
             while (StayConnected)
@@ -33,7 +59,7 @@ namespace HackerKonsole.Controller.Common
                 bool typedSomething = Console.CursorLeft > NetShellPrompt.Length;
                 if (typedSomething)
                 {
-                    Console.WriteLine();                    
+                    Console.WriteLine();
                 }
                 Console.WriteLine(_encryptedConnection.ReadLineCrypto());
                 if (typedSomething)
@@ -42,5 +68,7 @@ namespace HackerKonsole.Controller.Common
                 }
             }
         }
+
+        #endregion Private Methods
     }
 }

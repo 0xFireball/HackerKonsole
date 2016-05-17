@@ -38,6 +38,7 @@ namespace HackerKonsole.Controller.CLI
                     Console.WriteLine("Connection successfully established!");
                     
                     var connectedController = new ConnectedController(cryptConnection);
+                    connectedController.InitializeSession();
                     connectedController.InteractiveNetShell();
                 }
                 catch (Exception ex)
