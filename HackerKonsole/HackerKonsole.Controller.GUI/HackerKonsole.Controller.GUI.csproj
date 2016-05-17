@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuiConnectedControllerBackend.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +81,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HackerKonsole.ConnectionServices\HackerKonsole.ConnectionServices.csproj">
+      <Project>{b2a4969a-4e37-4d00-a0cf-e022e4c06476}</Project>
+      <Name>HackerKonsole.ConnectionServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HackerKonsole.Controller.Common\HackerKonsole.Controller.Common.csproj">
       <Project>{A33ECC26-6C29-4574-9535-3B0D31279924}</Project>
       <Name>HackerKonsole.Controller.Common</Name>
