@@ -36,7 +36,7 @@ namespace HackerKonsole.Controller.CLI
                     Console.WriteLine("Attempting to establish connection...");
                     cryptConnection.ClientPerformKeyExchange();
                     Console.WriteLine("Connection successfully established!");
-                    
+
                     var connectedController = new ConnectedController(cryptConnection);
                     connectedController.InitializeSession();
                     connectedController.InteractiveNetShell();

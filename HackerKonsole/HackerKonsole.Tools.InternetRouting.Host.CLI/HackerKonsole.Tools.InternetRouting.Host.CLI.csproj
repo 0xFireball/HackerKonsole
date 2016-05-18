@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{FAA80D3C-81D9-4FD6-888D-5D08D9769E29}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HackerKonsole.Tools.InternetRouting.Core</RootNamespace>
-    <AssemblyName>HackerKonsole.Tools.InternetRouting.Core</AssemblyName>
+    <RootNamespace>HackerKonsole.Tools.InternetRouting.Host.CLI</RootNamespace>
+    <AssemblyName>HackerKonsole.Tools.InternetRouting.Host.CLI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,14 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InternetRoutingProxy.cs" />
-    <Compile Include="InternetRoutingProxyConnector.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HackerKonsole.ConnectionServices\HackerKonsole.ConnectionServices.csproj">
-      <Project>{B2A4969A-4E37-4D00-A0CF-E022E4C06476}</Project>
-      <Name>HackerKonsole.ConnectionServices</Name>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HackerKonsole.Tools.InternetRouting.Core\HackerKonsole.Tools.InternetRouting.Core.csproj">
+      <Project>{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}</Project>
+      <Name>HackerKonsole.Tools.InternetRouting.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

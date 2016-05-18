@@ -68,6 +68,10 @@
       <Project>{B2A4969A-4E37-4D00-A0CF-E022E4C06476}</Project>
       <Name>HackerKonsole.ConnectionServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HackerKonsole.Tools.InternetRouting.Core\HackerKonsole.Tools.InternetRouting.Core.csproj">
+      <Project>{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}</Project>
+      <Name>HackerKonsole.Tools.InternetRouting.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HackerKonsoleServer.Common\HackerKonsoleServer.Common.csproj">
       <Project>{D222126A-2E47-417E-9B10-BFE253559927}</Project>
       <Name>HackerKonsoleServer.Common</Name>

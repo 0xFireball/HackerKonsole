@@ -2,10 +2,7 @@
 
 namespace HackerKonsole.Tools.InternetRouting.Core
 {
-    /// <summary>
-    /// A class to route a TCP connection over the internet.
-    /// </summary>
-    public class InternetRoutingProxy
+    public class InternetRoutingProxyConnector
     {
         #region Private Fields
 
@@ -15,16 +12,16 @@ namespace HackerKonsole.Tools.InternetRouting.Core
 
         #region Public Constructors
 
-        public InternetRoutingProxy(string bindHostname, int port)
+        public InternetRoutingProxyConnector(string hostname, int port)
         {
-            _baseSocket = new TcpClient(bindHostname, port);
+            _baseSocket = new TcpClient(hostname, port);
         }
 
         #endregion Public Constructors
 
         #region Public Methods
 
-        public void StartProxy()
+        public void ConnectToProxy()
         {
         }
 

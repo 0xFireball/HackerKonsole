@@ -17,7 +17,7 @@ namespace HackerKonsole.Controller.GUI
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
-            await Task.Run(()=>ConnectToServer());
+            await Task.Run(() => ConnectToServer());
         }
 
         private void ConnectToServer()

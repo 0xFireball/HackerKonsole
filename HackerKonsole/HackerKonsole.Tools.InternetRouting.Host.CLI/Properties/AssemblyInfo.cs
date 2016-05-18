@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HackerKonsole.Tools.InternetRouting.Core")]
+[assembly: AssemblyTitle("HackerKonsole.Tools.InternetRouting.Host.CLI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HackerKonsole.Tools.InternetRouting.Core")]
+[assembly: AssemblyProduct("HackerKonsole.Tools.InternetRouting.Host.CLI")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("240d08d5-d50c-422e-ab6b-c1b2878efa7e")]
+[assembly: Guid("faa80d3c-81d9-4fd6-888d-5d08d9769e29")]
 
 // Version information for an assembly consists of the following four values:
 //

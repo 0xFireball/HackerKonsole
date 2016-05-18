@@ -118,22 +118,15 @@ namespace HackerKonsole.ConnectionServices
         }
         */
 
-        public void WriteLineCrypto(string data)
+        public NetworkStream GetUnencryptedStream()
         {
-            string encryptedData = PowerAES.Encrypt(data, SessionKey);
-            _outputStream.WriteLine(encryptedData);
-            _outputStream.Flush();
+            return _tcpClient.GetStream();
         }
 
         public string ReadLineCrypto()
         {
             var rawData = _inputStream.ReadLine();
             return PowerAES.Decrypt(rawData, SessionKey);
-        }
-
-        public NetworkStream GetUnencryptedStream()
-        {
-            return _tcpClient.GetStream();
         }
 
         public void ServerPerformKeyExchange()
@@ -196,6 +189,13 @@ namespace HackerKonsole.ConnectionServices
         public void SetSendTimeout(int milliseconds)
         {
             _tcpClient.SendTimeout = milliseconds;
+        }
+
+        public void WriteLineCrypto(string data)
+        {
+            string encryptedData = PowerAES.Encrypt(data, SessionKey);
+            _outputStream.WriteLine(encryptedData);
+            _outputStream.Flush();
         }
 
         #endregion Public Methods

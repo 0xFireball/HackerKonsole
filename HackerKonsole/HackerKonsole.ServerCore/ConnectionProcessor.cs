@@ -15,8 +15,8 @@ namespace HackerKonsole.ServerCore
         #region Public Fields
 
         public RatServer BaseServer;
-        public CryptTcpClient CryptoSocket;
         public Dictionary<string, string> ConnectionHeaders;
+        public CryptTcpClient CryptoSocket;
         public StreamReader UnencryptedInputStream;
         public StreamWriter UnencryptedOutputStream;
         public int WaitTimeout;
@@ -41,9 +41,10 @@ namespace HackerKonsole.ServerCore
             var parsedHeaders = new Dictionary<string, string>();
             try
             {
-                foreach (var rawHeaderLine in rawHeaders)
+                foreach (var rawHeaderLineToParse in rawHeaders)
                 {
-                    rawHeaderLine.Trim();
+                    var rawHeaderLine = rawHeaderLineToParse;
+                    rawHeaderLine = rawHeaderLine.Trim();
                     var separator = rawHeaderLine.IndexOf(':');
                     if (separator == -1)
                     {
@@ -176,6 +177,11 @@ namespace HackerKonsole.ServerCore
                 case "help":
                 case "helpme":
                     SendLine("You don't need help, you're a h4x0r!");
+                    break;
+
+                default:
+                    if (command.Trim() != "")
+                        SendLine("Command not found. Type help for help.");
                     break;
             }
         }
