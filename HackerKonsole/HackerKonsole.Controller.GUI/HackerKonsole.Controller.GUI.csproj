@@ -81,6 +81,12 @@
     <Compile Include="CommandLine.Designer.cs">
       <DependentUpon>CommandLine.cs</DependentUpon>
     </Compile>
+    <Compile Include="UtilityChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityChooser.Designer.cs">
+      <DependentUpon>UtilityChooser.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserFrontendShell.resx">
       <DependentUpon>UserFrontendShell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityChooser.resx">
+      <DependentUpon>UtilityChooser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
