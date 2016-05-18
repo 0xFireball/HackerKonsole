@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using HackerKonsole.Tools.InternetRouting.Core;
 using HackerKonsoleServer.Common;
 
 namespace HackerKonsole.ServerCore
@@ -12,12 +11,6 @@ namespace HackerKonsole.ServerCore
     /// </summary>
     public abstract class RatServer
     {
-        #region Protected Fields
-
-        protected InternetRoutingProxyConnector RoutingProxyConnector;
-
-        #endregion Protected Fields
-
         #region Private Fields
 
         private readonly string _bindAddress;
@@ -71,13 +64,10 @@ namespace HackerKonsole.ServerCore
         {
             try
             {
-                RoutingProxyConnector = new InternetRoutingProxyConnector(_serverSettings.RoutingProxyAddress, _serverSettings.RoutingProxyPort);
-                RoutingProxyConnector.ConnectToProxy();
-                RoutingProxyAvailable = true;
+                RoutingProxyAvailable = false;
             }
             catch (Exception)
             {
-                RoutingProxyConnector = null;
                 RoutingProxyAvailable = false;
             }
         }
