@@ -47,11 +47,20 @@ namespace HackerKonsole.Controller.Common
             while (StayConnected)
             {
                 string command = ConsoleExtensions.ReadWrite(NetShellPrompt);
-                SendCommand(command);
+                SendCommandCli(command);
             }
         }
 
-        public void SendCommand(string command)
+        public void ReceiveDataWithCallback(Action<string> callback)
+        {
+            StayConnected = true;
+            while (StayConnected)
+            {
+                callback(ReceiveStuff());
+            }
+        }
+
+        public void SendCommandCli(string command)
         {
             switch (command)
             {
@@ -79,11 +88,15 @@ namespace HackerKonsole.Controller.Common
                     break;
 
                 default:
-                    _encryptedConnection.WriteLineCrypto(command);
+                    SendGenericCommand(command);
                     break;
             }
         }
 
+        public void SendGenericCommand(string genericCommand)
+        {
+            _encryptedConnection.WriteLineCrypto(genericCommand);
+        }
         #endregion Public Methods
 
         #region Private Methods
@@ -102,14 +115,6 @@ namespace HackerKonsole.Controller.Common
                 {
                     Console.Write(NetShellPrompt);
                 }
-            }
-        }
-
-        public void ReceiveDataWithCallback(Action<string> callback)
-        {
-            while (StayConnected)
-            {
-                callback(ReceiveStuff());
             }
         }
 

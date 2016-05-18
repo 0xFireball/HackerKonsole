@@ -27,31 +27,31 @@ namespace HackerKonsole.Controller.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            pastCommand.Text = enterCommand.Text + "\r\n";
-            enterCommand.Text = "";
-            Task.Run(() => SendCommand(enterCommand.Text));
+            pastCommand.Text += "HK$>" + enterCommand.Text + "\r\n"; //append the current command to the log
+            enterCommand.Text = ""; //Clear entercommand
+            Task.Factory.StartNew(() => SendCommand(enterCommand.Text)); //asynchronously send the command
         }
 
         private void SendCommand(string command)
         {
-            _connectedController.SendCommand(command);
+            _connectedController.SendGenericCommand(command);
         }
 
         #endregion Private Methods
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new UtilityChooser().Show();
+        }
+
         private void CommandLine_Load(object sender, EventArgs e)
         {
-            _connectedController.ReceiveDataWithCallback(OnDataReceived);
+            Task.Factory.StartNew(() => _connectedController.ReceiveDataWithCallback(OnDataReceived)); //Asynchronously subscribe for callbacks
         }
 
         private void OnDataReceived(string data)
         {
-            pastCommand.Text = data + "\r\n";
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            new UtilityChooser().Show();
+            pastCommand.Text += data + "\r\n";
         }
     }
 }

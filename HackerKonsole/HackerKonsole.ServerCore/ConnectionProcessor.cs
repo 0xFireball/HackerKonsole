@@ -116,7 +116,7 @@ namespace HackerKonsole.ServerCore
                         throw new FormatException("Failed to parse headers because they were malformed.");
                     }
                     SendLine(CommonMessages.WelcomeMaster);
-                    //Interpreter mode
+                    //Interpreter mode until an error occurs; etc.
                     while (true)
                     {
                         recvData = CryptoSocket.ReadLineCrypto().Trim();
@@ -193,18 +193,20 @@ namespace HackerKonsole.ServerCore
             if (sepInd < 0)
                 return false;
             string cmdName = command.Substring(0, sepInd);
-            string cmdArg = command.Substring(sepInd+1);
+            string cmdArg = command.Substring(sepInd + 1);
             switch (cmdName)
             {
                 case "pullfile":
                     string remoteFileName = cmdArg;
                     SendLine(File.ReadAllBytes(remoteFileName).GetString());
                     break;
+
                 case "pushfile":
                     string fileNameToSave = cmdArg;
                     byte[] fileHunk = CryptoSocket.ReadLineCrypto().GetBytes(); //Get a big chunk file
                     File.WriteAllBytes(fileNameToSave, fileHunk);
                     break;
+
                 default:
                     return false;
             }
