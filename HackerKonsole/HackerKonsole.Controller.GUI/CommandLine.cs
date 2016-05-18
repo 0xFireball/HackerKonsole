@@ -23,9 +23,9 @@ namespace HackerKonsole.Controller.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Task.Run(() => SendCommand(enterCommand.Text));
-            enterCommand.Text = "";
             pastCommand.Text = enterCommand.Text + "\r\n";
+            enterCommand.Text = "";
+            Task.Run(() => SendCommand(enterCommand.Text));   
         }
 
         private void label1_Click(object sender, EventArgs e)
