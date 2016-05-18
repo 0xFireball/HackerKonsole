@@ -28,7 +28,8 @@ namespace HackerKonsole.Controller.GUI
         private void button1_Click(object sender, EventArgs e)
         {
             pastCommand.Text += "HK$>" + enterCommand.Text + "\r\n"; //append the current command to the log
-            Task.Factory.StartNew(() => SendCommand(enterCommand.Text)); //asynchronously send the command
+            string cmd = enterCommand.Text;
+            Task.Factory.StartNew(() => SendCommand(cmd)); //asynchronously send the command
             enterCommand.Text = ""; //Clear entercommand box
         }
 
