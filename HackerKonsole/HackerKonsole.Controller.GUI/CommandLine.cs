@@ -29,7 +29,7 @@ namespace HackerKonsole.Controller.GUI
         {
             pastCommand.Text = enterCommand.Text + "\r\n";
             enterCommand.Text = "";
-            Task.Run(() => SendCommand(enterCommand.Text));   
+            Task.Run(() => SendCommand(enterCommand.Text));
         }
 
         private void SendCommand(string command)
@@ -47,6 +47,11 @@ namespace HackerKonsole.Controller.GUI
         private void OnDataReceived(string data)
         {
             pastCommand.Text = data + "\r\n";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new UtilityChooser().Show();
         }
     }
 }
