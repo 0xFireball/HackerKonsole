@@ -47,32 +47,37 @@ namespace HackerKonsole.Controller.Common
             while (StayConnected)
             {
                 string command = ConsoleExtensions.ReadWrite(NetShellPrompt);
-                switch (command)
-                {
-                    case "pullfile":
-                        Console.WriteLine("You're pulling a file. Follow the wizard:");
-                        string remoteFilePath = ConsoleExtensions.ReadWriteLine("Path on remote machine: ");
-                        string localFilePath = ConsoleExtensions.ReadWriteLine("Path to save file to: ");
-                        _encryptedConnection.WriteLineCrypto(command+" "+remoteFilePath); //send a request to pull the remote file
-                        byte[] fileHunk = _encryptedConnection.ReadLineCrypto().GetBytes(); //Get a big chunk file
-                        File.WriteAllBytes(localFilePath, fileHunk);
-                        break;
-                    case "pushfile":
-                        Console.WriteLine("You're pushing a file. Follow the wizard:");
-                        string localPushFileLocation = ConsoleExtensions.ReadWriteLine("Path on local machine: ");
-                        string remoteFileSavePath = ConsoleExtensions.ReadWriteLine("Path on remote machine to save file to: ");
-                        _encryptedConnection.WriteLineCrypto(command + " " + remoteFileSavePath); //send a request to push the file to the remote
-                        _encryptedConnection.WriteLineCrypto(File.ReadAllBytes(localPushFileLocation).GetString());
-                        _encryptedConnection.Flush();
-                        break;
-                    case "exit":
-                        _encryptedConnection.WriteLineCrypto(command);
-                        _encryptedConnection.Close();
-                        break;
-                    default:
-                        _encryptedConnection.WriteLineCrypto(command);
-                        break;
-                }
+                SendCommand(command);
+            }
+        }
+
+        public void SendCommand(string command)
+        {
+            switch (command)
+            {
+                case "pullfile":
+                    Console.WriteLine("You're pulling a file. Follow the wizard:");
+                    string remoteFilePath = ConsoleExtensions.ReadWriteLine("Path on remote machine: ");
+                    string localFilePath = ConsoleExtensions.ReadWriteLine("Path to save file to: ");
+                    _encryptedConnection.WriteLineCrypto(command + " " + remoteFilePath); //send a request to pull the remote file
+                    byte[] fileHunk = _encryptedConnection.ReadLineCrypto().GetBytes(); //Get a big chunk file
+                    File.WriteAllBytes(localFilePath, fileHunk);
+                    break;
+                case "pushfile":
+                    Console.WriteLine("You're pushing a file. Follow the wizard:");
+                    string localPushFileLocation = ConsoleExtensions.ReadWriteLine("Path on local machine: ");
+                    string remoteFileSavePath = ConsoleExtensions.ReadWriteLine("Path on remote machine to save file to: ");
+                    _encryptedConnection.WriteLineCrypto(command + " " + remoteFileSavePath); //send a request to push the file to the remote
+                    _encryptedConnection.WriteLineCrypto(File.ReadAllBytes(localPushFileLocation).GetString());
+                    _encryptedConnection.Flush();
+                    break;
+                case "exit":
+                    _encryptedConnection.WriteLineCrypto(command);
+                    _encryptedConnection.Close();
+                    break;
+                default:
+                    _encryptedConnection.WriteLineCrypto(command);
+                    break;
             }
         }
 

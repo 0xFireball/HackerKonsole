@@ -9,12 +9,18 @@ namespace HackerKonsole.Controller.GUI
 {
     public partial class MainForm : Form
     {
+        #region Public Constructors
+
         public MainForm()
         {
             InitializeComponent();
             Form.CheckForIllegalCrossThreadCalls = false;
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
+
+        #endregion Public Constructors
+
+        #region Private Methods
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
@@ -49,9 +55,9 @@ namespace HackerKonsole.Controller.GUI
                     cryptConnection.ClientPerformKeyExchange();
                     Console.WriteLine("Connection successfully established!");
 
-                    var connectedController = new GuiConnectedControllerBackend(cryptConnection);
-                    connectedController.InitializeSession();
-                    var frontendManager = new CommandLine();
+                    var connectedController = new ConnectedController(cryptConnection);
+                    connectedController.InitializeSession(); //Send the basic stuff
+                    var frontendManager = new CommandLine(connectedController);
                     Hide();
                     frontendManager.ShowDialog();
                 }
@@ -64,5 +70,7 @@ namespace HackerKonsole.Controller.GUI
                 }
             }
         }
+
+        #endregion Private Methods
     }
 }
