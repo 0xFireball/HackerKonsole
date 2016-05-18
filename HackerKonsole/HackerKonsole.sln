@@ -29,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{163E73
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsole.ConnectionServices", "HackerKonsole.ConnectionServices\HackerKonsole.ConnectionServices.csproj", "{B2A4969A-4E37-4D00-A0CF-E022E4C06476}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{909DD062-7834-4F88-AC6A-5311702D9821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerKonsole.Tools.InternetRouting.Core", "HackerKonsole.Tools.InternetRouting.Core\HackerKonsole.Tools.InternetRouting.Core.csproj", "{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,10 @@ Global
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240D08D5-D50C-422E-AB6B-C1B2878EFA7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +93,6 @@ Global
 		{87127811-63A3-44BE-AA22-33FAFDFFB3A1} = {2BB67B22-4D86-4668-B0FC-39F52BE5C5AF}
 		{A33ECC26-6C29-4574-9535-3B0D31279924} = {2BB67B22-4D86-4668-B0FC-39F52BE5C5AF}
 		{B2A4969A-4E37-4D00-A0CF-E022E4C06476} = {163E732D-4578-4175-8D36-29D71ED51A36}
+		{240D08D5-D50C-422E-AB6B-C1B2878EFA7E} = {909DD062-7834-4F88-AC6A-5311702D9821}
 	EndGlobalSection
 EndGlobal
