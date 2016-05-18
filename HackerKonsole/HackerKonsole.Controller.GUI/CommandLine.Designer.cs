@@ -93,6 +93,7 @@
             this.Name = "CommandLine";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "ShellFrontend";
+            this.Load += new System.EventHandler(this.CommandLine_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

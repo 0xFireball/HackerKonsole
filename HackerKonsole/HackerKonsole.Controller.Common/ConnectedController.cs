@@ -63,6 +63,7 @@ namespace HackerKonsole.Controller.Common
                     byte[] fileHunk = _encryptedConnection.ReadLineCrypto().GetBytes(); //Get a big chunk file
                     File.WriteAllBytes(localFilePath, fileHunk);
                     break;
+
                 case "pushfile":
                     Console.WriteLine("You're pushing a file. Follow the wizard:");
                     string localPushFileLocation = ConsoleExtensions.ReadWriteLine("Path on local machine: ");
@@ -71,10 +72,12 @@ namespace HackerKonsole.Controller.Common
                     _encryptedConnection.WriteLineCrypto(File.ReadAllBytes(localPushFileLocation).GetString());
                     _encryptedConnection.Flush();
                     break;
+
                 case "exit":
                     _encryptedConnection.WriteLineCrypto(command);
                     _encryptedConnection.Close();
                     break;
+
                 default:
                     _encryptedConnection.WriteLineCrypto(command);
                     break;
@@ -94,12 +97,25 @@ namespace HackerKonsole.Controller.Common
                 {
                     Console.WriteLine();
                 }
-                Console.WriteLine(_encryptedConnection.ReadLineCrypto());
+                Console.WriteLine(ReceiveStuff());
                 if (typedSomething)
                 {
                     Console.Write(NetShellPrompt);
                 }
             }
+        }
+
+        public void ReceiveDataWithCallback(Action<string> callback)
+        {
+            while (StayConnected)
+            {
+                callback(ReceiveStuff());
+            }
+        }
+
+        private string ReceiveStuff()
+        {
+            return _encryptedConnection.ReadLineCrypto();
         }
 
         #endregion Private Methods
