@@ -50,9 +50,9 @@ namespace HackerKonsole.Controller.GUI
 
                     var connectedController = new GuiConnectedControllerBackend(cryptConnection);
                     connectedController.InitializeSession();
-                    var frontendManager = new ShellFrontend();
+                    var frontendManager = new CommandLine();
                     frontendManager.ShowDialog();
-                    this.Hide();
+                    Close();
                 }
                 catch (Exception ex)
                 {

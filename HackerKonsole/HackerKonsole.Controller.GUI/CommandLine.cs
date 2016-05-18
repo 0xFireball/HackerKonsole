@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace HackerKonsole.Controller.GUI
 {
-    public partial class ShellFrontend : Form
+    public partial class CommandLine : Form
     {
-        public ShellFrontend()
+        public CommandLine()
         {
             InitializeComponent();
         }

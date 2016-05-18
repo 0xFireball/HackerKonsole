@@ -1,6 +1,6 @@
 ﻿namespace HackerKonsole.Controller.GUI
 {
-    partial class ShellFrontend
+    partial class CommandLine
     {
         /// <summary>
         /// Required designer variable.
