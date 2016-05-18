@@ -13,6 +13,7 @@ namespace HackerKonsole.Controller.GUI
         {
             InitializeComponent();
             Form.CheckForIllegalCrossThreadCalls = false;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
         private async void button1_Click(object sender, System.EventArgs e)
@@ -51,8 +52,8 @@ namespace HackerKonsole.Controller.GUI
                     var connectedController = new GuiConnectedControllerBackend(cryptConnection);
                     connectedController.InitializeSession();
                     var frontendManager = new CommandLine();
+                    Hide();
                     frontendManager.ShowDialog();
-                    Close();
                 }
                 catch (Exception ex)
                 {

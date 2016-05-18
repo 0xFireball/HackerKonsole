@@ -71,7 +71,7 @@
             this.textBox2.Size = new System.Drawing.Size(579, 366);
             this.textBox2.TabIndex = 3;
             // 
-            // ShellFrontend
+            // CommandLine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,7 +81,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Name = "ShellFrontend";
+            this.Name = "CommandLine";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "ShellFrontend";
             this.ResumeLayout(false);
             this.PerformLayout();

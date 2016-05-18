@@ -10,6 +10,7 @@ namespace HackerKonsole.Controller.GUI
         public CommandLine()
         {
             InitializeComponent();
+            FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
         private void label1_Click(object sender, EventArgs e)
