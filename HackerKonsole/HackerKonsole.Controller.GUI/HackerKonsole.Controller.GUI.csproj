@@ -100,8 +100,8 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RemoteManagerFrontend.resx">
-      <DependentUpon>RemoteManagerFrontend.cs</DependentUpon>
+    <EmbeddedResource Include="UserFrontendShell.resx">
+      <DependentUpon>UserFrontendShell.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
