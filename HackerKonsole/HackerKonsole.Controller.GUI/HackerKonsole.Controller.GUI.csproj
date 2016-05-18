@@ -82,6 +82,12 @@
     <Compile Include="RemoteManagerFrontend.Designer.cs">
       <DependentUpon>RemoteManagerFrontend.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShellFrontend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShellFrontend.Designer.cs">
+      <DependentUpon>ShellFrontend.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -99,6 +105,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShellFrontend.resx">
+      <DependentUpon>ShellFrontend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserFrontendShell.resx">
       <DependentUpon>UserFrontendShell.cs</DependentUpon>
