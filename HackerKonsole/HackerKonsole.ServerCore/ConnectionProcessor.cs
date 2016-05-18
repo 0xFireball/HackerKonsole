@@ -180,10 +180,30 @@ namespace HackerKonsole.ServerCore
                     break;
 
                 default:
-                    if (command.Trim() != "")
+                    var customCommand = ParseCustomCommand(command);
+                    if (command.Trim() != "" && !customCommand)
                         SendLine("Command not found. Type help for help.");
                     break;
             }
+        }
+
+        private bool ParseCustomCommand(string command)
+        {
+            int sepInd = command.IndexOf(" ", StringComparison.Ordinal);
+            if (sepInd < 0)
+                return false;
+            string cmdName = command.Substring(0, sepInd);
+            string cmdArg = command.Substring(sepInd+1);
+            switch (cmdName)
+            {
+                case "pullfile":
+                    string remoteFileName = cmdArg;
+                    SendLine(File.ReadAllBytes(remoteFileName).GetString());
+                    break;
+                default:
+                    return false;
+            }
+            return true;
         }
 
         #endregion Private Methods

@@ -198,6 +198,16 @@ namespace HackerKonsole.ConnectionServices
             _outputStream.Flush();
         }
 
+        public void WriteCrypto()
+        {
+            
+        }
+
+        public void Flush()
+        {
+            _outputStream.Flush();
+        }
+
         #endregion Public Methods
     }
 }
