@@ -28,8 +28,11 @@ namespace HackerKonsole.ServerCore
                 {
                     BindAddress = "0.0.0.0",
                     Port = 25000,
-                    WaitTimeout = 60000,
-                    EnableLogging = true
+                    WaitTimeout = 600000, //10 minutes
+                    EnableLogging = true,
+                    //Public Routing Proxy:
+                    RoutingProxyAddress = "127.0.0.1",
+                    RoutingProxyPort = 25555,
                 };
             }
             var hackerKonsoleServer = new HackerKonsoleServer(serverSettings);

@@ -5,6 +5,8 @@
         public string BindAddress;
         public bool EnableLogging = false;
         public int Port;
-        public int WaitTimeout = 10000;
+        public int WaitTimeout = 60000; //1 minute
+        public string RoutingProxyAddress;
+        public int RoutingProxyPort;
     }
 }
