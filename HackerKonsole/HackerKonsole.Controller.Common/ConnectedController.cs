@@ -38,6 +38,7 @@ namespace HackerKonsole.Controller.Common
             _encryptedConnection.WriteLineCrypto("\n");
             _encryptedConnection.WriteLineCrypto("\n");
             SessionIsInitialized = true;
+            _encryptedConnection.SetReceiveTimeout(600000); //10m
         }
 
         public void InteractiveNetShell()
@@ -97,6 +98,7 @@ namespace HackerKonsole.Controller.Common
         {
             _encryptedConnection.WriteLineCrypto(genericCommand);
         }
+
         #endregion Public Methods
 
         #region Private Methods

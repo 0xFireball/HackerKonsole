@@ -106,6 +106,11 @@ namespace HackerKonsole.ConnectionServices
             _tcpClient.Close();
         }
 
+        public void Flush()
+        {
+            _outputStream.Flush();
+        }
+
         public void GenerateAsymmetricKeys()
         {
             RSAKeyPair = new PowerRSA(RSAKeySize); //Initialize RSA Key pair
@@ -191,23 +196,16 @@ namespace HackerKonsole.ConnectionServices
             _tcpClient.SendTimeout = milliseconds;
         }
 
+        public void WriteCrypto()
+        {
+        }
+
         public void WriteLineCrypto(string data)
         {
             string encryptedData = PowerAES.Encrypt(data, SessionKey);
             _outputStream.WriteLine(encryptedData);
             _outputStream.Flush();
         }
-
-        public void WriteCrypto()
-        {
-            
-        }
-
-        public void Flush()
-        {
-            _outputStream.Flush();
-        }
-
         #endregion Public Methods
     }
 }
