@@ -7,7 +7,11 @@ namespace HackerKonsole.Controller.GUI
 {
     public partial class CommandLine : Form
     {
+        #region Private Fields
+
         private readonly ConnectedController _connectedController;
+
+        #endregion Private Fields
 
         #region Public Constructor
 
@@ -38,5 +42,15 @@ namespace HackerKonsole.Controller.GUI
         }
 
         #endregion Private Methods
+
+        private void CommandLine_Load(object sender, EventArgs e)
+        {
+            _connectedController.ReceiveDataWithCallback(OnDataReceived);
+        }
+
+        private void OnDataReceived(string data)
+        {
+            pastCommand.Text = data + "\r\n";
+        }
     }
 }
