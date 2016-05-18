@@ -32,10 +32,6 @@ namespace HackerKonsole.Controller.GUI
             Task.Run(() => SendCommand(enterCommand.Text));   
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
         private void SendCommand(string command)
         {
             _connectedController.SendCommand(command);
