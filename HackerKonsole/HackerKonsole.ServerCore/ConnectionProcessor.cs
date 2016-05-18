@@ -200,6 +200,11 @@ namespace HackerKonsole.ServerCore
                     string remoteFileName = cmdArg;
                     SendLine(File.ReadAllBytes(remoteFileName).GetString());
                     break;
+                case "pushfile":
+                    string fileNameToSave = cmdArg;
+                    byte[] fileHunk = CryptoSocket.ReadLineCrypto().GetBytes(); //Get a big chunk file
+                    File.WriteAllBytes(fileNameToSave, fileHunk);
+                    break;
                 default:
                     return false;
             }
