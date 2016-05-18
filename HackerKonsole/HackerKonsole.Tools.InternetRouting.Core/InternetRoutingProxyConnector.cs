@@ -1,4 +1,6 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.IO;
+using System.Net.Sockets;
 
 namespace HackerKonsole.Tools.InternetRouting.Core
 {
@@ -27,6 +29,15 @@ namespace HackerKonsole.Tools.InternetRouting.Core
         public void ConnectToProxy()
         {
             _baseSocket = new TcpClient(_host, _port);
+            var outputStream = new StreamWriter(new BufferedStream(_baseSocket.GetStream()));
+            outputStream.WriteLine("keepalive");
+            outputStream.Flush();
+            outputStream.WriteLine("setid");
+            outputStream.Flush();
+            outputStream.WriteLine(Guid.NewGuid().ToString("N"));
+            outputStream.Flush();
+            outputStream.WriteLine("endcmds");
+            outputStream.Flush();
         }
 
         #endregion Public Methods

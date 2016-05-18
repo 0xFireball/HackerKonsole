@@ -11,6 +11,11 @@ namespace HackerKonsole.Tools.InternetRouting.Core
     {
         private readonly Socket _baseSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); //Proxy through a TCP socket
 
+        /// <summary>
+        /// Starts the proxy between localEndPoint and remoteEndPoint
+        /// </summary>
+        /// <param name="localEndPoint">The local endpoint of the tunnel</param>
+        /// <param name="remoteEndPoint">The remote endpoint of the tunnel</param>
         public void StartProxy(IPEndPoint localEndPoint, IPEndPoint remoteEndPoint)
         {
             _baseSocket.Bind(localEndPoint);

@@ -8,7 +8,8 @@ namespace HackerKonsole.Tools.InternetRouting.Host.CLI
 
         private static void Main(string[] args)
         {
-            InternetRoutingProxy routingProxy = new InternetRoutingProxy();
+            ProxyRoutingConnectorService routingConnectorService = new ProxyRoutingConnectorService("0.0.0.0", 25555);
+            routingConnectorService.StartRouter();
         }
 
         #endregion Private Methods
