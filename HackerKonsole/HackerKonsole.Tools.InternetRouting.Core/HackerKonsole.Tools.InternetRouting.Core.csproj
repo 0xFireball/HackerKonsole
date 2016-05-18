@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ForwardingInfo.cs" />
     <Compile Include="InternetRoutingProxy.cs" />
     <Compile Include="InternetRoutingProxyConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
