@@ -26,6 +26,7 @@ namespace HackerKonsole.Tools.InternetRouting.Core
 
         public void ConnectToProxy()
         {
+            _baseSocket = new TcpClient(_host, _port);
         }
 
         #endregion Public Methods

@@ -72,7 +72,7 @@ namespace HackerKonsole.ServerCore
             try
             {
                 RoutingProxyConnector = new InternetRoutingProxyConnector(_serverSettings.RoutingProxyAddress, _serverSettings.RoutingProxyPort);
-
+                RoutingProxyConnector.ConnectToProxy();
                 RoutingProxyAvailable = true;
             }
             catch (Exception)

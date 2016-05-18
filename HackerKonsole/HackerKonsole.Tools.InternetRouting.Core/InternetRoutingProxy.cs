@@ -5,50 +5,50 @@ using System.Net.Sockets;
 namespace HackerKonsole.Tools.InternetRouting.Core
 {
     /// <summary>
-    /// A class to route a TCP connection over the internet.
+    /// A class to proxy a Socket connection
     /// </summary>
     public class InternetRoutingProxy
     {
-        private readonly Socket _mainSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private readonly Socket _baseSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); //Proxy through a TCP socket
 
-        public void StartProxy(IPEndPoint local, IPEndPoint remote)
+        public void StartProxy(IPEndPoint localEndPoint, IPEndPoint remoteEndPoint)
         {
-            _mainSocket.Bind(local);
-            _mainSocket.Listen(10);
+            _baseSocket.Bind(localEndPoint);
+            _baseSocket.Listen(10);
 
             while (true)
             {
-                var source = _mainSocket.Accept();
+                var source = _baseSocket.Accept();
                 var destination = new InternetRoutingProxy();
-                var forwardingInfo = new ForwardingInfo(source, destination._mainSocket);
-                destination.Connect(remote, source);
-                source.BeginReceive(forwardingInfo.Buffer, 0, forwardingInfo.Buffer.Length, 0, OnDataReceive, forwardingInfo);
+                var forwardingInformation = new ForwardingInfo(source, destination._baseSocket);
+                destination.Connect(remoteEndPoint, source);
+                source.BeginReceive(forwardingInformation.Buffer, 0, forwardingInformation.Buffer.Length, 0, OnDataReceive, forwardingInformation);
             }
         }
 
         private void Connect(EndPoint remoteEndpoint, Socket destination)
         {
-            var forwardingInfo = new ForwardingInfo(_mainSocket, destination);
-            _mainSocket.Connect(remoteEndpoint);
-            _mainSocket.BeginReceive(forwardingInfo.Buffer, 0, forwardingInfo.Buffer.Length, SocketFlags.None, OnDataReceive, forwardingInfo);
+            var forwardingInformation = new ForwardingInfo(_baseSocket, destination);
+            _baseSocket.Connect(remoteEndpoint);
+            _baseSocket.BeginReceive(forwardingInformation.Buffer, 0, forwardingInformation.Buffer.Length, SocketFlags.None, OnDataReceive, forwardingInformation);
         }
 
         private static void OnDataReceive(IAsyncResult result)
         {
-            var forwardingInfo = (ForwardingInfo)result.AsyncState;
+            var forwardingInformation = (ForwardingInfo)result.AsyncState;
             try
             {
-                var bytesRead = forwardingInfo.SourceSocket.EndReceive(result);
+                var bytesRead = forwardingInformation.SourceSocket.EndReceive(result);
                 if (bytesRead > 0)
                 {
-                    forwardingInfo.DestinationSocket.Send(forwardingInfo.Buffer, bytesRead, SocketFlags.None);
-                    forwardingInfo.SourceSocket.BeginReceive(forwardingInfo.Buffer, 0, forwardingInfo.Buffer.Length, 0, OnDataReceive, forwardingInfo);
+                    forwardingInformation.DestinationSocket.Send(forwardingInformation.Buffer, bytesRead, SocketFlags.None);
+                    forwardingInformation.SourceSocket.BeginReceive(forwardingInformation.Buffer, 0, forwardingInformation.Buffer.Length, 0, OnDataReceive, forwardingInformation);
                 }
             }
             catch
             {
-                forwardingInfo.DestinationSocket.Close();
-                forwardingInfo.SourceSocket.Close();
+                forwardingInformation.DestinationSocket.Close();
+                forwardingInformation.SourceSocket.Close();
             }
         }
     }
