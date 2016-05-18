@@ -7,6 +7,8 @@ namespace HackerKonsole.Tools.InternetRouting.Core
         #region Private Fields
 
         private TcpClient _baseSocket;
+        private string _host;
+        private int _port;
 
         #endregion Private Fields
 
@@ -14,7 +16,8 @@ namespace HackerKonsole.Tools.InternetRouting.Core
 
         public InternetRoutingProxyConnector(string hostname, int port)
         {
-            _baseSocket = new TcpClient(hostname, port);
+            _host = hostname;
+            _port = port;
         }
 
         #endregion Public Constructors
