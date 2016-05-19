@@ -72,5 +72,10 @@ namespace HackerKonsole.Controller.GUI
         }
 
         #endregion Private Methods
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

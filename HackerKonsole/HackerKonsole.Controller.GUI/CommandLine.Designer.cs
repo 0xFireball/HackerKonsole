@@ -78,6 +78,7 @@
             this.pastCommand.Name = "pastCommand";
             this.pastCommand.Size = new System.Drawing.Size(579, 366);
             this.pastCommand.TabIndex = 3;
+            this.pastCommand.TextChanged += new System.EventHandler(this.pastCommand_TextChanged);
             // 
             // button2
             // 
