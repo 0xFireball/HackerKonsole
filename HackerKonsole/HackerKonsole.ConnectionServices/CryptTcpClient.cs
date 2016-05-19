@@ -206,6 +206,7 @@ namespace HackerKonsole.ConnectionServices
             _outputStream.WriteLine(encryptedData);
             _outputStream.Flush();
         }
+
         #endregion Public Methods
     }
 }

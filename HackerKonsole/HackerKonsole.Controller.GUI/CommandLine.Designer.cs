@@ -56,6 +56,7 @@
             this.enterCommand.Name = "enterCommand";
             this.enterCommand.Size = new System.Drawing.Size(431, 20);
             this.enterCommand.TabIndex = 1;
+            this.enterCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.enterCommand_KeyDown);
             // 
             // button1
             // 
