@@ -32,7 +32,7 @@ namespace HackerKonsole.Controller.GUI
 
         private void SendCommandInBox()
         {
-            pastCommand.Text += "HK$>" + enterCommand.Text + "\r\n"; //append the current command to the log
+            pastCommand.AppendText("HK$>" + enterCommand.Text + "\r\n"); //append the current command to the log
             var cmd = enterCommand.Text;
             Task.Factory.StartNew(() => SendCommand(cmd)); //asynchronously send the command
             enterCommand.Text = ""; //Clear entercommand box
@@ -57,7 +57,7 @@ namespace HackerKonsole.Controller.GUI
 
         private void OnDataReceived(string data)
         {
-            pastCommand.Text += data + "\r\n";
+            pastCommand.AppendText(data + "\r\n");
         }
 
         private void enterCommand_KeyDown(object sender, KeyEventArgs e)
